@@ -4,11 +4,9 @@
             <div class="col-md-1" v-if="$store.state.user.admin">
                 <router-link to="/dash">Dashboard</router-link>
             </div>
+
             <div class="col-md-1">
-                <router-link to="/singleplayer">SinglePlayer</router-link>
-            </div>
-            <div class="col-md-1">
-                <router-link to="/multiplayer">Multiplayer</router-link>
+                <router-link to="/play">Play</router-link>
             </div>
             <div class="col-md-7"> </div>
 

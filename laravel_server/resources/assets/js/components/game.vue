@@ -5,8 +5,8 @@
             <br>
         </div>
         <div class="game-zone-content">
-            <div class="alert text-center" :class="alerttype">
-                <strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp; Your score: {{ownScore}}
+             <div class="alert text-center" :class="alerttype">
+            <!--    <strong>{{ message }} &nbsp;&nbsp;&nbsp;&nbsp; Your score: {{ownScore}}
                     <a v-show="game.gameEnded" v-on:click.prevent="closeGame">Close Game</a>
                 </strong>
                 <form action="#" method="get" id="id_form" v-if="game.player1==ownPlayerName">
@@ -24,20 +24,25 @@
                         <label for="defaultSize">Default size?</label>
                         <input type="checkbox" id="defaultSize" name="size" v-model="game.defaultSize" v-bind:disabled="game.gameStarted">
                         <span class="error" id="msgError_Cols"></span>
-                    </div>
+                    </div>-->
                     <div>
                         <div class="btn btn-xs btn-success" v-on:click.prevent="startgame" v-if="game.players[1] && !game.gameStarted && game.players[0].playerName==ownPlayerName">Start Game</div>
                     </div>
-                </form>
+               <!-- </form>-->
             </div>
-            <div class="container" v-if="game.gameStarted">
-                    <div class="row">
-                    <div class="col-sm-3 chatBox" v-bind:style="{ height: chatHeight }">
-                        <ul class="messages">                         
+            <div class="container">
+                <div class="row">
+
+                    <!-- *****CHAT ZONE***** -->
+                    <!-- <div class="col-sm-3 chatBox" v-bind:style="{ height: chatHeight }">
+                        <ul class="messages">
                             <li v-for="message in messages">{{message.playerName}}: {{message.message}}</li>
                         </ul>
-                    </div>
-                    <div class="col-sm-6">
+                    </div> -->
+
+
+
+                    <!-- <div class="col-sm-6">
                         <div class="board text-center col-md">
                             <div v-bind:style="{ width: maxBoardWith }">
                                 <div v-for="(piece, index) of game.board">
@@ -46,9 +51,62 @@
                             </div>
                         </div>
                     </div>
-                     <div class="col-sm-6"> </div>
-                </div>
-                <div class="row">
+                    <div class="col-sm-6"> </div>
+                </div> -->
+
+
+
+                    <!-- TEAMMATE HAND -->
+                    <div class="row">
+                        <div class="col-md-12" style="text-align:center">
+                            <img v-for="i in 10" v-bind:src="cardImageURL('semFace')" class="myHand">
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <!-- LEFT PLAYER HAND -->
+                        <div class="col-md-1 col-md-offset-3">
+                            <img v-for="i in 10" v-bind:src="cardImageURL('semFace')" class="oponentsHand">
+                        </div>
+                        <!-- CENTER ZONE -->
+                        <div class="col-md-4">
+                            <!-- TEAMMATE CARD -->
+                            <div class="row">
+                                <div class="col-md-12" style="text-align:center">
+                                    <img v-bind:src="cardImageURL('c1')" class="playedCard">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- LEFT PLAYER CARD -->
+                                <div class="col-md-6" style="text-align:center">
+                                    <img v-bind:src="cardImageURL('c2')" class="playedCard">
+                                </div>
+                                <!-- RIGHT PLAYER CARD -->
+                                <div class="col-md-6" style="text-align:center">
+                                    <img v-bind:src="cardImageURL('c3')" class="playedCard">
+                                </div>
+                            </div>
+                            <!-- MY CARD -->
+                            <div class="row">
+                                <div class="col-md-12" style="text-align:center">
+                                    <img v-bind:src="cardImageURL('c4')" class="playedCard">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- RIGHT PLAYER HAND -->
+                        <div class="col-md-1">
+                            <img v-for="i in 10" v-bind:src="cardImageURL('semFace')" class="oponentsHand">
+                        </div>
+                    </div>
+                    <!-- OUR HAND -->
+                    <div class="row">
+                        <div class="col-md-12" style="text-align:center">
+                            <img v-for="i in 10" v-bind:src="cardImageURL('semFace')" class="myHand">
+                        </div>
+                    </div>
+
+                    <!-- <div class="row">
                     <div class="col-sm">
                         <form action="">
                             <input v-model="input" autocomplete="off" />
@@ -57,6 +115,7 @@
                             </button>
                         </form>
                     </div>
+                </div> -->
                 </div>
             </div>
             <hr>
@@ -201,8 +260,8 @@
             }
         },
         methods: {
-            pieceImageURL(pieceNumber) {
-                var imgSrc = String(pieceNumber);
+            cardImageURL(cardNumber) {
+                var imgSrc = String(cardNumber);
                 return 'img/' + imgSrc + '.png';
             },
             closeGame() {

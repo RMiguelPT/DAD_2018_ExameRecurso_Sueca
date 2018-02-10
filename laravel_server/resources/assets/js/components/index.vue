@@ -9,7 +9,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    DAD Memory Game
+                    Sueca Game
                 </div>
 
                 <div >

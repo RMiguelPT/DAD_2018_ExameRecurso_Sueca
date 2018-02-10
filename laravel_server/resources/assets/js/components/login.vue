@@ -87,28 +87,42 @@ export default {
         .then(response => {
           var token = response.data.access_token;
           var refreshToken = response.data.refresh_token;
+          var userID = response.data.id;
 
-          window.localStorage.setItem("authToken", token);
-          window.localStorage.setItem("resfreshToken", refreshToken);
-          window.localStorage.setItem("isUserLogin", true);
+         // window.localStorage.setItem("authToken", token);
+       //   window.localStorage.setItem("resfreshToken", refreshToken);
+         // window.localStorage.setItem("isUserLogin", true);
          
          // store tockens vuex
-         this.$store.state.user.headers.Authorization = 'Bearer ' + window.localStorage.getItem("authToken");
-         this.$store.state.user.refresh = window.localStorage.getItem("resfreshToken");
+       //  this.$store.state.user.headers.Authorization = 'Bearer ' + window.localStorage.getItem("authToken");
+       //  this.$store.state.user.refresh = window.localStorage.getItem("resfreshToken");
+
+       this.$store.commit('setAuthToken', token);
+       this.$store.commit('setHeaders', token);
+       this.$store.commit('setRefreshToken', refreshToken);
+       
+
+
+
 
 // Get and store user data by unique email and redirect to default page
           axios
             .get("api/users/getuserbymail/" + this.email, { headers: this.$store.state.user.headers})
             .then(response => {
 
-              this.$store.state.user.nickname =  response.data[0].nickname;
+              //this.$store.state.user.nickname =  response.data[0].nickname;
+              this.$store.commit('setNickname', response.data[0].nickname);
+              this.$store.commit('setID', response.data[0].id);
 
               if (response.data[0].admin == "1") {
-                this.$store.state.user.admin = true;
+              this.$store.commit('setAdmin', true);
+            //this.$store.state.user.admin = true;
                 return this.$router.push("/dash");
               } else {
-                this.$store.state.user.admin = false;
-                return this.$router.push("/singleplayer");
+              this.$store.commit('setAdmin', false);
+                  
+                //this.$store.state.user.admin = false;
+                return this.$router.push("/play");
               }
 
 

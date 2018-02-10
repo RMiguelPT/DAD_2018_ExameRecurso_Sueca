@@ -2,24 +2,11 @@
 
 var app = require('http').createServer();
 
-// CORS TRIALS
-// var app = require('http').createServer(function(req,res){
-// 	// Set CORS headers
-// 	res.setHeader('Access-Control-Allow-Origin', 'http://dad.p6.dev');
-// 	res.setHeader('Access-Control-Request-Method', '*');
-// 	res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-// 	res.setHeader('Access-Control-Allow-Credentials', true);
-// 	res.setHeader('Access-Control-Allow-Headers', req.header.origin);
-// 	if ( req.method === 'OPTIONS' ) {
-// 		res.writeHead(200);
-// 		res.end();
-// 		return;
-// 	}
-// });
+
 
 var io = require('socket.io')(app);
 
-var MemoryGame = require('./gamemodel.js');
+var SuecaGame = require('./gamemodel.js');
 var GameList = require('./gamelist.js');
 
 
@@ -37,7 +24,7 @@ io.on('connection', function (socket) {
 	console.log('client has connected');
 
 	socket.on('create_game', function (data) {
-		let game = games.createGame(data.playerName, socket.id);
+		let game = games.createGame(data.playerID, data.playerName, socket.id);
 		socket.join(game.gameID);
 		// Notifications to the client
 		socket.emit('my_active_games_changed');
@@ -45,13 +32,13 @@ io.on('connection', function (socket) {
 	});
 
 	socket.on('start_game', function (data) {
-		let game = games.startGame(data.gameID, data.totCols, data.totLines, data.defaultSize);
+		let game = games.startGame(data.gameID);
 		io.to(game.gameID).emit('game_started');
 		io.to(game.gameID).emit('my_active_games_changed');
 	});
 
 	socket.on('join_game', function (data) {
-		let game = games.joinGame(data.gameID, data.playerName, socket.id);
+		let game = games.joinGame(data.gameID, data.playerID, data.playerName, socket.id);
 		socket.join(game.gameID);
 		io.to(game.gameID).emit('my_active_games_changed');
 		io.emit('lobby_changed');
